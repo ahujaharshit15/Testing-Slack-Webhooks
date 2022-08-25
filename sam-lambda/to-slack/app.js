@@ -19,7 +19,7 @@ exports.lambdaHandler = async (event, context) => {
 
   //use .env here !!! IMPORTANT
   const url =
-    "https://hooks.slack.com/services/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";
+    "https://hooks.slack.com/services/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";
 
   const webhook = new IncomingWebhook(url);
 
