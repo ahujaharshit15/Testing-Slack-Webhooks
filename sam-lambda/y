@@ -1,0 +1,12 @@
+version = 0.1
+[y]
+[y.deploy]
+[y.deploy.parameters]
+stack_name = "sam-lambda"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1gfu7d0qks4lm"
+s3_prefix = "sam-lambda"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = ["ToSlackFunction=426993854009.dkr.ecr.us-east-1.amazonaws.com/samlambdaadfc63cd/toslackfunction9df0c75brepo"]
