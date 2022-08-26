@@ -19,37 +19,34 @@ exports.lambdaHandler = async (event, context) => {
 
   //use .env here !!! IMPORTANT
   const url =
-    "https://hooks.slack.com/services/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";
+    "SLACK_WEBHOOK_URL_HERE";
 
   const webhook = new IncomingWebhook(url);
 
-  const webhookTest = async () => {
-    try {
-      console.log("Sending slack message");
+  try {
+    console.log("Sending slack message");
 
-      const resFromSlack = await webhook.send({
-        text: event.body,
-        icon_emoji: ":hubspot:",
-        //   attachments: [
-        //     {
-        //       color: "#8697db",
-        //       fields: [
-        //         {
-        //           title: "YOTest ",
-        //           value: "Testing Slack Channel",
-        //         },
-        //       ],
-        //     },
-        //   ],
-      });
-      console.log("The message response is : ", resFromSlack);
-    } catch (e) {
-      console.error("There was an error : ", e);
-    }
-  };
+    const resFromSlack = await webhook.send({
+      text: event.body,
+      // icon_emoji: ":hubspot:",
+      //   attachments: [
+      //     {
+      //       color: "#8697db",
+      //       fields: [
+      //         {
+      //           title: "YOTest ",
+      //           value: "Testing Slack Channel",
+      //         },
+      //       ],
+      //     },
+      //   ],
+    });
+    console.log("The message response is : ", resFromSlack);
+  } catch (e) {
+    console.error("There was an error : ", e);
+  }
 
-  webhookTest();
-
+  //this was below
   try {
     console.log(event.body);
     console.log(JSON.stringify(event.body));
@@ -67,4 +64,4 @@ exports.lambdaHandler = async (event, context) => {
   }
 
   return response;
-};
+};;
