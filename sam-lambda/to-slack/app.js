@@ -1,3 +1,5 @@
+// import hubspotFunc from "./hubspotHandler"
+// const hubspot = require("./hubspotHandler");
 // const axios = require('axios')
 // const url = 'http://checkip.amazonaws.com/';
 let response;
@@ -15,53 +17,56 @@ let response;
  *
  */
 exports.lambdaHandler = async (event, context) => {
+  const message = JSON.parse(event.body);
+
   const { IncomingWebhook } = require("@slack/webhook");
-
-  //use .env here !!! IMPORTANT
-  const url =
-    "SLACK_WEBHOOK_URL_HERE";
-
+  const url = "";
   const webhook = new IncomingWebhook(url);
 
-  try {
-    console.log("Sending slack message");
+  console.log(message);
+  const fName = message.fName;
+  const lName = message.lName;
+  const email = message.email;
+  const slackID = message.slackID;
+  const action = message.action;
+  console.log("the values are : ", fName, lName, email, slackID, action);
 
-    const resFromSlack = await webhook.send({
-      text: event.body,
-      // icon_emoji: ":hubspot:",
-      //   attachments: [
-      //     {
-      //       color: "#8697db",
-      //       fields: [
-      //         {
-      //           title: "YOTest ",
-      //           value: "Testing Slack Channel",
-      //         },
-      //       ],
-      //     },
-      //   ],
+  const slackMessage =
+    "<@" +
+    slackID +
+    "> /n" +
+    " The user " +
+    fName +
+    " " +
+    lName +
+    " with email " +
+    email +
+    " performed action: " +
+    action;
+  console.log("The Slack message is:", message);
+
+  try {
+    await webhook.send({
+      text: slackMessage,
     });
-    console.log("The message response is : ", resFromSlack);
   } catch (e) {
-    console.error("There was an error : ", e);
+    console.error("There was a error with the request", e);
   }
+  response = {
+    statusCode: 200,
+    body: JSON.stringify({
+      message: "Hello, this is the trigger app.js for DD",
+    }),
+  };
 
-  //this was below
-  try {
-    console.log(event.body);
-    console.log(JSON.stringify(event.body));
-    // const ret = await axios(url);
-    response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: "Sent to slack ",
-        // location: ret.data.trim()
-      }),
-    };
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
+  // const properties = {
+  //   email: email,
+  //   firstname: fName,
+  //   lastname: lName,
+  //   lifecyclestage: action,
+  // };
+
+  // hubspotFunc(properties);
 
   return response;
-};;
+};
